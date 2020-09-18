@@ -57,7 +57,7 @@ class StudentDataViewController: UIViewController{
         
         studentData.Name = people.last?.value(forKeyPath: "name") as! String
         print(studentData.Name)
-        studentData.Courses = people.last?.value(forKeyPath: "courses") as! [String]
+//        studentData.Courses = people.last?.value(forKeyPath: "courses") as! [String]
         studentData.Image = people.last?.value(forKeyPath: "image") as! String
         print(studentData.Courses)
        }
@@ -79,7 +79,7 @@ extension StudentDataViewController: UITableViewDelegate, UITableViewDataSource 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
         let cell = tableView.dequeueReusableCell(withIdentifier: "StudentCell", for: indexPath)
-        cell.textLabel?.text = studentData.Courses[indexPath.row]
+//        cell.textLabel?.text = studentData.Courses[indexPath.row]
         cell.detailTextLabel?.text = "No Announcement Yet"
      
       

@@ -21,6 +21,9 @@ class ViewController: UIViewController, UITextFieldDelegate{
     
     var linkImage = ""
     
+    var linkarry : [String] = []
+    
+    
     @IBOutlet weak var appearButton: UIButton!
     @IBOutlet weak var loginButton: UIButton!
     @IBOutlet weak var secodView: UIView!
@@ -36,8 +39,8 @@ class ViewController: UIViewController, UITextFieldDelegate{
     override func viewDidLoad() {
         super.viewDidLoad()
         viewColor()
-//        userNameTextField.text = "CS171054"
-//        passwordTextField.text = "looks171054"
+        userNameTextField.text = "CS171054"
+        passwordTextField.text = "sami15281"
         data = lms
         screenSetup()
 //        image.isHidden = true
@@ -246,15 +249,22 @@ extension ViewController: WKNavigationDelegate{
         let step_2 = "document.getElementById('password').value='\(pass)'"
         let step_3 = "document.getElementById('rememberusername').value='\(pass)'"
         let step_4 = "document.getElementById('login').submit();"
+          let secondScript = "document.getElementsByTagName('html')[0].innerHTML"
+//        let step_5 =
 //         let secondScript = "document.getElementsByTagName('html')[0].innerHTML"
          webView.evaluateJavaScript(step_1, completionHandler: { (object, error) in
 //               print(object)
             self.webView.evaluateJavaScript(step_2, completionHandler: { (object, error) in
 //                  print(object)
                      self.webView.evaluateJavaScript(step_4, completionHandler: { (object, error) in
-                                     print(object)
+                        print("html data ")
+//                        print(object)
                         self.dataEntry()
-                                          print("successfull")
+                        print("successfull")
+                        self.webView.evaluateJavaScript(secondScript) { (objects, err) in
+                            print("idhar tak agay")
+                            print(objects!)
+                        }
 //                        self.performSegue(withIdentifier: "info", sender: nil)
                      })
                   })
@@ -301,11 +311,6 @@ extension ViewController: WKNavigationDelegate{
                     
                 }
                 
-
-                
-             
-                
-              
                 print("_____________----------------")
                 let links = try doc.getElementsByClass("dropdown-menu")
 
@@ -316,19 +321,46 @@ extension ViewController: WKNavigationDelegate{
                 let course = try links.select("ul").last()
                 //print(try course?.html())
                 let numberOfCourses = try course?.select("li").array()
+                let information = try course?.html()
+                print("idhar aya \(information)")
                 for i in 0..<numberOfCourses!.count{
                     let names = try numberOfCourses?[i].text()
-                    self.student.Courses.append(names!)
-                    print(names!)
+//                    self.student.Courses.append(names!)
+                    print("links nikalna")
+//
+//                   let address = try numberOfCourses?.first?.select("a").attr("href")
+//                    print(address!)
+                    let address2 = try numberOfCourses?[i].select("a").attr("href")
+                   print(address2!)
+                    self.linkarry.append(address2!)
+                   
+                    
                 }
-                self.student.Courses.remove(at: 0)
+                if numberOfCourses?.count == self.linkarry.count{
+                    print("idahr call kar wao")
+                    self.linksData()
+                }
+                // links
+               
+                
+//                let courselink = URL(string: "")!
+//                let request = URLRequest(url: courselink)
+//                self.webView.load(request)
+                
+                
+//                self.student.Courses.remove(at: 0)
                 self.student.Name = name
+                // annoucment ->
                 
                 
 //                let name = try doc.getElementsByClass("fa fa-user").html()
 //                print(name)
 //                let dash = try doc.getElementsByClass("fa fa-home").html()
 //                print(dash)
+                
+               
+                
+                
             }catch{
                 print(error)
             }
@@ -338,9 +370,10 @@ extension ViewController: WKNavigationDelegate{
             print("drop down")
 //            let _ = self.student.Courses.remove(at: 0)
 //            print("\(self.student.Name) -> \(self.student.Courses) -> \(self.student.Image)")
-          
+          //-----new link---//
             self.coreData()
         }
+          
     }
     
     func coreData(){
@@ -362,6 +395,22 @@ extension ViewController: WKNavigationDelegate{
 
         
     }
-   
+    func linksData(){
+        let secondScript = "document.getElementsByTagName('html')[0].innerHTML"
+        
+        print("function of links")
+        print(linkarry)
+        linkarry.remove(at: 0)
+        print(linkarry.last!)
+
+        let url = URL(string: linkarry.last!)!
+                    let request = URLRequest(url: url)
+                    webView.load(request)
+                   
+//        for i in 0..<linkarry.count{
+//
+//
+//        }
+    }
     
 }

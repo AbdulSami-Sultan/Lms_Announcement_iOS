@@ -10,5 +10,8 @@ import Foundation
 class UserData {
     var Name    :   String      =   ""
     var Image   :   String      =   ""
-    var Courses :   [String]    =   []
+    var Courses :   [CoursesAnnoucmnet]    =   []
+}
+class CoursesAnnoucmnet{
+    var announcment : [String] = []
 }
